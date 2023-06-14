@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/head">
+</head>
+<body class="sb-sidenav-toggled">
+    <div class="d-flex" id="wrapper">
+        <div th:replace="fragments/sidenav"></div>
+        <div class="form-body">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <div class="container-fluid">
+                    <button class="btn btn-primary" id="sidebarToggle">Menu</button>
+                </div>
+            </nav>
+            <div class="container">
+                <div class="row">
+                    <div class="form-holder">
+                        <div class="form-content">
+                            <div class="form-items">
+                                <h3>Whatsapp Blast</h3>
+                                <p>Send a template message to someone</p>
+                                <form class="requires-validation" novalidate action="/" method="POST">
+                                    <div class="col-md-12">
+                                        <select class="form-select mt-3" required name="phoneid" id="phoneid">
+                                            <option selected disabled value="">Phone Number</option>
+                                            <option value="105406685674131" th:selected="${phoneid=='105406685674131'}">+62895-6105-05790</option>
+                                        </select>
+                                        <div class="valid-feedback"></div>
+                                        <div class="invalid-feedback">Must select a phone number!</div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <select class="form-select mt-3" required name="templatename" id="templatename">
+                                            <option selected disabled value="">Template Name</option>
+                                            <option value="employee_request_adv_submit" th:selected="${templatename=='employee_request_adv_submit'}">Employee Request Advance Submit</option>
+                                            <option value="employee_request_adv_approve" th:selected="${templatename=='employee_request_adv_approve'}">Employee Request Advance Approved</option>
+                                        </select>
+                                        <div class="valid-feedback"></div>
+                                        <div class="invalid-feedback">A template must be selected</div>
+                                    </div>
+                                    <div class="col-md-12 employeename">
+                                        <input class="form-control" type="text" name="employeename" placeholder="Employee Name" required th:value="${employeename}">
+                                        <div class="valid-feedback"></div>
+                                        <div class="invalid-feedback">Employee Name cannot be empty!</div>
+                                    </div>
+                                    <div class="col-md-12 date">
+                                        <input class="form-control" type="date" name="date" placeholder="Date" required th:value="${date}">
+                                        <div class="valid-feedback"></div>
+                                        <div class="invalid-feedback">Request Date cannot be empty!</div>
+                                    </div>
+                                    <div class="col-md-12 requestno">
+                                        <input class="form-control" type="text" name="requestno" placeholder="Request No" required th:value="${requestno}">
+                                        <div class="valid-feedback"></div>
+                                        <div class="invalid-feedback">Request No cannot be empty!</div>
+                                    </div>
+                                    <div class="col-md-12 advanceamount">
+                                        <input class="form-control" type="number" name="advanceamount" placeholder="Advance Amount" required th:value="${advanceamount}">
+                                        <div class="valid-feedback"></div>
+                                        <div class="invalid-feedback">Advance Amount cannot be empty!</div>
+                                    </div>
+                                    <div class="col-md-12 requestername">
+                                        <input class="form-control" type="text" name="requestername" placeholder="Requester Name" required th:value="${requestername}">
+                                        <div class="valid-feedback"></div>
+                                        <div class="invalid-feedback">Requester Name cannot be empty!</div>
+                                    </div>
+                                    <div class="col-md-12 approovername">
+                                        <input class="form-control" type="text" name="approvername" placeholder="Approver Name" required th:value="${approvername}">
+                                        <div class="valid-feedback"></div>
+                                        <div class="invalid-feedback">Approver Name cannot be empty!</div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <input class="form-control" type="text" name="customernumber" placeholder="Customer Number" required th:value="${customernumber}">
+                                        <div class="valid-feedback"></div>
+                                        <div class="invalid-feedback">Customer Number cannot be empty!</div>
+                                    </div>
+
+                                    <div class="form-button mt-3">
+                                        <button id="submit" type="submit" class="btn btn-primary">Send</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="fragments/htmlscript"/>
+</body>
+</html>
