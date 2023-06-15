@@ -23,16 +23,32 @@
             </div>
             <div class="container">
                 <div class="row">
-                    <div class="Page navigation" th:if="${data_halaman.totalPages > 0}">
+                    <ul class="list-group" th:each="page : ${pages_data}">
+                        <li class="list-group-item">
+                            <h5 th:text="${page.templateIdentifier}" class="text-bold"></h5>
+                            <p th:text="${page.templateName}"></p>
+                            <p th:text="${page.templateContext}"></p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row">
+                    <div class="Page navigation" th:if="${pages.totalPages > 0}">
                         <ul class="pagination justify-content-md-center">
                             <li class="page-item">
-                                <a href="@{/template_list(size=1,5)}" th:classappend="${data_halaman.numbers == 0 ? 'disabled : ''}" class="page-link" aria-label="Previous">
+                                <a th:href="@{/template_list(size=${pageSize},page=1)}" th:classappend="${pages.number == 0 ? 'disabled' : ''}" class="page-link" aria-label="Previous">
                                     <span aria-hidden="true"><</span>
                                     <span class="sr-only">Previous</span>
                                 </a>
                             </li>
-                            <li class="page-item" th:each="pageNo: ${#numbers.sequence(0, data_halaman.totalPages-1)}">
-                                <a class="page-item page-link" th:classappend="${pageNo==}" href="@{/template_list(size=${pageSize}, page=${pageNo}}" th:text="${pageNo+1}"></a>
+                            <li class="page-item" th:each="pageNo: ${#numbers.sequence(1, pages.totalPages)}">
+                                <a class="page-item page-link" th:classappend="${list_halaman==pages.totalPages+1 ? 'active' : ''}" th:href="@{/template_list(size=${pageSize}, page=${pageNo})}" th:text="${pageNo}"></a>
+                            </li>
+
+                            <li class="page-item">
+                                <a th:href="@{/template_list(size=${pageSize},page=${pages.totalPages})}" th:classappend="${pages.number == pages.totalPages ? 'disabled' : ''}" class="page-link" aria-label="Previous">
+                                    <span class="sr-only">Next</span>
+                                    <span aria-hidden="true">></span>
+                                </a>
                             </li>
                         </ul>
                     </div>

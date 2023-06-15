@@ -92,11 +92,12 @@ public class WhatsappController {
     }
 
     @GetMapping("/template_list")
-    public String getTemplateList(@RequestParam(name="name", required = false, defaultValue = "World")String name, Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size){
+    public String getTemplateList(@RequestParam(name="name", required = false, defaultValue = "World") String name, Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size){
         model.addAttribute("name", name);
 
-        int currentPage = page.orElse(0);
-        int pageSize = size.orElse(5);
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(2);
+        currentPage = currentPage-1;
 
         Page<Template> pertanyaanPage = templateServices.getHalaman(currentPage, pageSize);
         List<Template> data = pertanyaanPage.getContent();
@@ -110,8 +111,9 @@ public class WhatsappController {
         }
 
 //        model.addAttribute("title", "Daftar Pertanyaan");
-        model.addAttribute("data_halaman", pertanyaanPage);
-        model.addAttribute("data", data);
+        model.addAttribute("pages", pertanyaanPage);
+        model.addAttribute("total_page", pertanyaanPage.getTotalPages());
+        model.addAttribute("pages_data", data);
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("pageSize", pageSize);
 
@@ -131,9 +133,30 @@ public class WhatsappController {
     }
 
     @PostMapping("/template_form")
-    public String getTemplatePost(@ModelAttribute Template template, Model model){
+    public String getTemplatePost(@ModelAttribute Template template, Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size){
         templateRepository.save(template);
         model.addAttribute("template",template);
+        int currentPage = page.orElse(0);
+        int pageSize = size.orElse(2);
+
+        Page<Template> pertanyaanPage = templateServices.getHalaman(currentPage, pageSize);
+        List<Template> data = pertanyaanPage.getContent();
+
+        int totalPages = pertanyaanPage.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("list_halaman", pageNumbers);
+        }
+
+//        model.addAttribute("title", "Daftar Pertanyaan");
+        model.addAttribute("pages", pertanyaanPage);
+        model.addAttribute("total_page", pertanyaanPage.getTotalPages());
+        model.addAttribute("pages_data", data);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("pageSize", pageSize);
+
         return "template_list";
     }
 }
